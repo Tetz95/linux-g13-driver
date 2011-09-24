@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -110,6 +112,32 @@ public class MacroEditorPanel extends JPanel {
 		editButton.setEnabled(false);
 		deleteButton.setEnabled(false);
 		
+		macroList.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() > 1) {
+					edit();
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+		});
+		
 		macroList.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
@@ -127,6 +155,7 @@ public class MacroEditorPanel extends JPanel {
 								editButton.setEnabled(true);
 							}
 						}
+						
 					}
 				});
 		
@@ -368,10 +397,10 @@ public class MacroEditorPanel extends JPanel {
 	}
 	
 	public void addDelay() {
-		int pos = 0;
+		int pos = -1;
 		
 		final int [] indicies = macroList.getSelectedIndices();
-		if (indicies != null) {
+		if (indicies != null && indicies.length > 0) {
 			pos = indicies[0]+1;
 		}
 
@@ -384,7 +413,12 @@ public class MacroEditorPanel extends JPanel {
 		
 		try {
 			int d = Integer.valueOf(newDelay);
-			listModel.insertElementAt("d." + d, pos);
+			if (pos == -1) {
+				listModel.addElement("d." + d);
+			}
+			else {
+				listModel.insertElementAt("d." + d, pos);
+			}
 			saveMacro();
 		}
 		catch (Exception e) {
