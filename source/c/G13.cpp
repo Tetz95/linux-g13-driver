@@ -59,6 +59,8 @@ G13::G13(libusb_device *device) {
 
 	this->bindings = 0;
 
+	this->stick_mode = STICK_KEYS;
+
 	for (int i = 0; i < G13_NUM_KEYS; i++) {
 		actions[i] = new G13Action();
 	}
@@ -121,12 +123,6 @@ void G13::stop() {
 
 Macro *G13::loadMacro(int num) {
 
-	map<int, Macro*>::iterator it = idToMacro.find(num);
-	if (it != idToMacro.end()) {
-		cout << "macro cached\n";
-		return it->second;
-	}
-
 	char filename[1024];
 
 	sprintf(filename, "%s/.g13/macro-%d.properties", getenv("HOME"), num);
@@ -163,17 +159,14 @@ Macro *G13::loadMacro(int num) {
 		}
 	}
 
-	idToMacro.insert(pair<int, Macro *>(num, macro));
 
-	return idToMacro.find(num)->second;
+	return macro;
 
 }
 
 void G13::loadBindings() {
 
 	char filename[1024];
-
-	idToMacro.clear();
 
 	sprintf(filename, "%s/.g13/bindings-%d.properties", getenv("HOME"), bindings);
 	cout << "loading " << filename << "\n";
@@ -207,6 +200,9 @@ void G13::loadBindings() {
 				  int b = atoi(num);
 
 				  setColor(r, g, b);
+			  }
+			  else if (strcmp(key, "stick_mode") == 0) {
+
 			  }
 			  else if (key[0] == 'G') {
 				  int gKey = atoi(&key[1]);
@@ -305,38 +301,56 @@ int G13::read() {
 void G13::parse_joystick(unsigned char *buf) {
 	int stick_x = buf[1];
 	int stick_y = buf[2];
-	int key_left = stick_keys[STICK_LEFT];
-	int key_right = stick_keys[STICK_RIGHT];
-	int key_up = stick_keys[STICK_UP];
-	int key_down = stick_keys[STICK_DOWN];
+
+	//cout << "stick = (" << stick_x << ", " << stick_y << ")\n";
+
+
 	if (stick_mode == STICK_ABSOLUTE) {
 		send_event(EV_ABS, ABS_X, stick_x);
 		send_event(EV_ABS, ABS_Y, stick_y);
 	} else if (stick_mode == STICK_KEYS) {
-		if (stick_x < 255 / 6) {
-			send_event(EV_KEY, key_left, 1);
-			send_event(EV_KEY, key_right, 0);
-		} else if (stick_x > 255 / 6 * 5) {
-			send_event(EV_KEY, key_left, 0);
-			send_event(EV_KEY, key_right, 1);
-		} else {
-			send_event(EV_KEY, key_left, 0);
-			send_event(EV_KEY, key_right, 0);
+
+		// 36=up, 37=left, 38=right, 39=down
+		int pressed[4];
+
+		if (stick_y <= 100) {
+			pressed[0] = 1;
+			pressed[3] = 0;
 		}
-		if (stick_y < 255 / 6) {
-			send_event(EV_KEY, key_up, 1);
-			send_event(EV_KEY, key_down, 0);
-		} else if (stick_y > 255 / 6 * 5) {
-			send_event(EV_KEY, key_up, 0);
-			send_event(EV_KEY, key_down, 1);
-		} else {
-			send_event(EV_KEY, key_up, 0);
-			send_event(EV_KEY, key_down, 0);
+		else if (stick_y >= 225) {
+			pressed[0] = 0;
+			pressed[3] = 1;
+		}
+		else {
+			pressed[0] = 0;
+			pressed[3] = 0;
+		}
+
+		if (stick_x <= 100) {
+			pressed[1] = 1;
+			pressed[2] = 0;
+		}
+		else if (stick_x >= 225) {
+			pressed[1] = 0;
+			pressed[2] = 1;
+		}
+		else {
+			pressed[1] = 0;
+			pressed[2] = 0;
+		}
+
+
+		int codes[4] = {36, 37, 38, 39};
+		for (int i = 0; i < 4; i++) {
+			int key = codes[i];
+			int p = pressed[i];
+			actions[key]->set(p);
 		}
 	} else {
 		/*    send_event(g13->uinput_file, EV_REL, REL_X, stick_x/16 - 8);
 		 send_event(g13->uinput_file, EV_REL, REL_Y, stick_y/16 - 8);*/
 	}
+
 }
 void G13::parse_key(int key, unsigned char *byte) {
 	unsigned char actual_byte = byte[key / 8];
