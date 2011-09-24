@@ -13,7 +13,7 @@
 #define G13_LCD_BUFFER_SIZE 0x3c0
 #define G13_NUM_KEYS 40
 
-enum stick_mode_t { STICK_ABSOLUTE, /*STICK_RELATIVE,*/ STICK_KEYS };
+enum stick_mode_t { STICK_KEYS = 0, STICK_ABSOLUTE, /*STICK_RELATIVE,*/  };
 
 enum stick_key_t { STICK_LEFT, STICK_UP, STICK_DOWN, STICK_RIGHT };
 

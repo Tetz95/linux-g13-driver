@@ -12,7 +12,6 @@ using namespace std;
 
 class G13 {
 private:
-	map<int, Macro *>     idToMacro;
 	G13Action            *actions[G13_NUM_KEYS];
 
 	libusb_device        *device;
