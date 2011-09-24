@@ -22,7 +22,7 @@ public class G13 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final int MAX_MACROS = 100;
+	private static final int MAX_MACROS = 200;
 	
 	private final ImageMap g13Label = new ImageMap();
 
@@ -46,8 +46,10 @@ public class G13 extends JPanel {
 				macros[i] = Configs.loadMacro(i);
 			}
 			
+			mapBindings(0);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e);
 		}
 		
@@ -64,39 +66,8 @@ public class G13 extends JPanel {
 				
 				if (key.getG13KeyCode() == 25 || key.getG13KeyCode() == 26 ||
 						key.getG13KeyCode() == 27 || key.getG13KeyCode() == 28) {
-					keybindPanel.setSelectedKey(null);
-					int bindingnum = key.getG13KeyCode() - 25;
-					keybindPanel.setBindings(bindingnum, keyBindings[bindingnum]);
 					
-					for (int i = 0; i < 40; i++) {
-						String property = "G" + i;
-						String val = keyBindings[bindingnum].getProperty(property);
-						
-						final Key k = Key.getKeyFor(i);
-						if (k != null) {
-							k.setMappedValue("Unknown");
-							k.setRepeats("Unknown");
-							
-							if (val != null) {
-								final StringTokenizer st = new StringTokenizer(val, ",.");
-								final String type = st.nextToken();
-								if (type.equals("p")) {
-									st.nextToken();
-									int keycode = Integer.valueOf(st.nextToken());
-									k.setMappedValue(JavaToLinuxKeymapping.cKeyCodeToString(keycode));
-									k.setRepeats("N/A");
-								}
-								else {
-									int macroNum = Integer.valueOf(st.nextToken());
-									final String macroName = macros[macroNum].getProperty("name");
-									boolean repeats = Integer.valueOf(st.nextToken()) != 0;
-									k.setMappedValue("Macro: " + macroName);
-									k.setRepeats(repeats?"Yes":"No");
-									
-								}
-							}
-						}
-					}
+					mapBindings(key.getG13KeyCode() - 25);
 					
 					return;
 				}
@@ -124,6 +95,42 @@ public class G13 extends JPanel {
 	}
 	
 		
+	private void mapBindings(int bindingnum) {
+		keybindPanel.setSelectedKey(null);
+		keybindPanel.setBindings(bindingnum, keyBindings[bindingnum]);
+		
+		for (int i = 0; i < 40; i++) {
+			String property = "G" + i;
+			String val = keyBindings[bindingnum].getProperty(property);
+			
+			final Key k = Key.getKeyFor(i);
+			if (k != null) {
+				k.setMappedValue("Unknown");
+				k.setRepeats("Unknown");
+				
+				if (val != null) {
+					final StringTokenizer st = new StringTokenizer(val, ",.");
+					final String type = st.nextToken();
+					if (type.equals("p")) {
+						st.nextToken();
+						int keycode = Integer.valueOf(st.nextToken());
+						k.setMappedValue(JavaToLinuxKeymapping.cKeyCodeToString(keycode));
+						k.setRepeats("N/A");
+					}
+					else {
+						int macroNum = Integer.valueOf(st.nextToken());
+						final String macroName = macros[macroNum].getProperty("name");
+						boolean repeats = Integer.valueOf(st.nextToken()) != 0;
+						k.setMappedValue("Macro: " + macroName);
+						k.setRepeats(repeats?"Yes":"No");
+						
+					}
+				}
+			}
+		}
+
+	}
+	
 	/**
 	 * @param args
 	 */

@@ -15,7 +15,8 @@ public class Configs {
 			{"G7" , "16"}, {"G8" , "17"}, {"G9",  "18"}, {"G10", "19"}, {"G11", "20"}, {"G12", "21"}, {"G13", "22"}, 
                            {"G14", "30"}, {"G15", "31"}, {"G16", "32"}, {"G17", "33"}, {"G18", "34"}, 
                                       {"G19", "44"}, {"G20", "45"}, {"G21", "46"}, 
-                                                                    {"G22", "57"}, {"G23", "58"}, 
+            /* Stick Buttons */ {"G22", "57"}, {"G23", "58"}, 
+            /* Stick */ {"G36" , "103"}, {"G37" , "105"}, {"G38",  "106"}, {"G39", "108"}, 
 			             
 	};
 	
@@ -70,8 +71,19 @@ public class Configs {
 			}
 			
 			final Properties props = new Properties();
-			props.put("name", "");
-			props.put("sequence", "");
+			
+			if (JavaToLinuxKeymapping.linuxToJavaCodes.length > macroNum && 
+					((String)JavaToLinuxKeymapping.linuxToJavaCodes[macroNum][0]).length() > 0) {
+				
+				props.put("name", (String)JavaToLinuxKeymapping.linuxToJavaCodes[macroNum][0]);
+				int keycode = (Integer)JavaToLinuxKeymapping.linuxToJavaCodes[macroNum][1];
+				final String seq = "kd." + keycode + ",ku." + keycode + ",d.100";
+				props.put("sequence", seq);
+			}
+			else {
+				props.put("name", "");
+				props.put("sequence", "");
+			}
 			props.put("id", Integer.toString(macroNum));
 			saveMacro(macroNum, props);
 			
