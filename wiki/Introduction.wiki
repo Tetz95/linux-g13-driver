@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+My goal is to make my G13 work in linux (specifically Ubuntu) with an easy to use interface.
+
+[https://lh4.googleusercontent.com/3yQpwc_5lIfDQv0pgomgCivMDUtiTvCLg24ee75PfwR-q49JC6trmri28scWNnGlOWK72ZgIVmz1U7pMEv3YrDijOcaZ82o_SEE=s512]
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
