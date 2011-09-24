@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#Image of Config Tool
 
 = Introduction =
 
