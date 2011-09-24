@@ -7,7 +7,4 @@ My goal is to make my G13 work in linux (specifically Ubuntu) with an easy to us
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+http://i53.tinypic.com/2na679u.jpg
