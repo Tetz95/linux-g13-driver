@@ -76,8 +76,6 @@
 	<target name="deploy" depends="version,init,jar,copy-c" >
 		<copy file="${project.home}/docs/README" tofile="${deploy}-${build_version}/README"/>
 		<zip destfile="${deploy}-${build_version}.zip" basedir="${deploy}-${build_version}" />
-		<delete dir="${build}"/>
-		<delete dir="${deploy}-${build_version}"/>
 	</target>
 
 	<target name="clean" description="clean up" >
