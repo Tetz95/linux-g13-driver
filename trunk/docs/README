@@ -1,7 +1,5 @@
 README
 
-Sept 24 2011 - Ver 1
-
 Notes:
 I've only tried this on Ubuntu 11.04 64 bit version.  No promises that it will work
 on your version even if it's the same.
@@ -32,7 +30,7 @@ Run the config tool first!
 
 Run the driver
 	In a command prompt go to the directory where you unzipped your download
-	and type "sudo ./G13-Linux-Driver"
+	and type "sudo ./Linux-G13-Driver"
 
 If you are configuring the application while the driver is running, the driver will
 not pick up changes unless you select a different bindings set or you can restart
