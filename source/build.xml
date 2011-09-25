@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
-<project name="Linux-G13-GUI" default="jar" basedir=".">
+<project name="Linux-G13-GUI" default="deploy" basedir=".">
 	<description>Build File G13 Configuration GUI</description>
-	<property name="target"       value="Linux-G13-GUI.jar"/>
+	<property name="project"      value="Linux-G13"/>
+	<property name="java-target"  value="${project}-GUI.jar"/>
 	
-	<property name="project.home" value="../.."/>
-	<property name="src"          value="${project.home}/source/java"/>
-	<property name="build"        value="/tmp/${target}/java-build"/>
-	<property name="deploy"       value="${project.home}/deploy"/>
+	<property name="project.home" value=".."/>
+	<property name="java-src"     value="${project.home}/source/java"/>
+	<property name="c-src"        value="${project.home}/source/c"/>
+	<property name="build"        value="/tmp/${java-target}/java-build"/>
 	
 	<property name="version"      value="1.0"/>
 	<property name="manifest"     value="${build}/Manifest.mf"/>
@@ -22,14 +23,16 @@
 	        </exec> 
 	</target> 
 
+	<property name="deploy" value="${project.home}/deploy/${project}_${version}"/>
+
 	<target name="init" depends="version">
 		<tstamp>
 			<format property="timestamp" pattern="yyyyMMdd.HHmm" />
 		</tstamp>
 		<mkdir dir="${build}"/>
-		<mkdir dir="${deploy}"/>
+		<mkdir dir="${deploy}-${build_version}"/>
 		
-		<echo>Java Build Script for ${target} ${common.version}</echo>
+		<echo>Java Build Script for ${java-target} ${common.version}</echo>
 		<echo>System OS = "${os.name}"</echo>
 		<echo>Version   = "${version}-${build_version}"</echo>
 		<echo>TimeStamp = "${timestamp}"</echo>
@@ -42,31 +45,47 @@
 			<attribute name="Copyright" value="${copyright}"/>
 			<attribute name="Implementation-Vendor" value="${vendor}"/>
 			<attribute name="Implementation-Version" value="${version}-${build_version}"/>
-			<attribute name="Implementation-Title" value="${target}"/>
+			<attribute name="Implementation-Title" value="${java-target}"/>
 			<attribute name="URL" value="${vendor.url}"/>
 			<attribute name="Build-Date" value="${timestamp}"/>
 			<attribute name="Main-Class" value="${main_class}"/>
 			<attribute name="Class-Path" value="${class_path}"/>
 		</manifest>
-		<javac srcdir="${src}" destdir="${build}"/>
+		<javac srcdir="${java-src}" destdir="${build}"/>
 	</target>
 
+	<target name="copy-c" depends="version" description="copys C/C++ files to deploy directory">
+		<mkdir dir="${deploy}-${build_version}/c-source"/>				
+		<copy todir="${deploy}-${build_version}/c-source">
+			<fileset dir="${c-src}" />
+		</copy>
+		<copy file="${project.home}/source/Makefile" tofile="${deploy}-${build_version}/Makefile"/>
+	</target>
 
 	<target name="jar" depends="compile" description="generate the distribution" >
 		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${deploy}/${target}" manifest="${manifest}">
+		<jar jarfile="${deploy}-${build_version}/${java-target}" manifest="${manifest}">
 			<fileset dir="${build}" includes="**/*.class"/>
-			<fileset dir="${src}" includes="**/*.class"/>
-			<fileset dir="${src}" includes="**/*.jpg"/>
-			<fileset dir="${src}" includes="**/*.png"/>
-			<fileset dir="${src}" includes="**/*.gif"/>
+			<fileset dir="${java-src}" includes="**/*.class"/>
+			<fileset dir="${java-src}" includes="**/*.jpg"/>
+			<fileset dir="${java-src}" includes="**/*.png"/>
+			<fileset dir="${java-src}" includes="**/*.gif"/>
 		</jar>
+	</target>
+	
+	<target name="deploy" depends="version,init,jar,copy-c" >
+		<copy file="${project.home}/docs/README" tofile="${deploy}-${build_version}/README"/>
+		<zip destfile="${deploy}-${build_version}.zip" basedir="${deploy}-${build_version}" />
+		<delete dir="${build}"/>
+		<delete dir="${deploy}-${build_version}"/>
 	</target>
 
 	<target name="clean" description="clean up" >
 		<!-- Delete the ${build} and ${deploy} directory trees -->
 		<delete dir="${build}"/>
-		<delete file="${deploy}/${target}"/>
+		<delete file="${deploy}-${build_version}"/>
 	</target>
+	
+	
 </project>
 
