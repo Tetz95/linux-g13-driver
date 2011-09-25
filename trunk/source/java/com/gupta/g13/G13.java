@@ -22,6 +22,8 @@ public class G13 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static final String VERSION = G13.class.getPackage().getImplementationVersion()!=null?G13.class.getPackage().getImplementationVersion():"Unknown";
+	
 	private static final int MAX_MACROS = 200;
 	
 	private final ImageMap g13Label = new ImageMap();
@@ -135,7 +137,7 @@ public class G13 extends JPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		final JFrame frame = new JFrame("G13 Configuation Tool");
+		final JFrame frame = new JFrame("G13 Configuation Tool, Version " + VERSION);
 		frame.setIconImage(ImageMap.G13_KEYPAD.getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
