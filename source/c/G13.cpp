@@ -313,11 +313,11 @@ void G13::parse_joystick(unsigned char *buf) {
 		// 36=up, 37=left, 38=right, 39=down
 		int pressed[4];
 
-		if (stick_y <= 100) {
+		if (stick_y <= 96) {
 			pressed[0] = 1;
 			pressed[3] = 0;
 		}
-		else if (stick_y >= 225) {
+		else if (stick_y >= 160) {
 			pressed[0] = 0;
 			pressed[3] = 1;
 		}
@@ -326,11 +326,11 @@ void G13::parse_joystick(unsigned char *buf) {
 			pressed[3] = 0;
 		}
 
-		if (stick_x <= 100) {
+		if (stick_x <= 96) {
 			pressed[1] = 1;
 			pressed[2] = 0;
 		}
-		else if (stick_x >= 225) {
+		else if (stick_x >= 160) {
 			pressed[1] = 0;
 			pressed[2] = 1;
 		}
@@ -344,7 +344,10 @@ void G13::parse_joystick(unsigned char *buf) {
 		for (int i = 0; i < 4; i++) {
 			int key = codes[i];
 			int p = pressed[i];
-			actions[key]->set(p);
+			if (actions[key]->set(p)) {
+				//cout << "key " << key << ", pressed=" << p << ", actions[key]->isPressed()="
+				//		<< actions[key]->isPressed() <<  ", x=" << stick_x << "\n";
+			}
 		}
 	} else {
 		/*    send_event(g13->uinput_file, EV_REL, REL_X, stick_x/16 - 8);
@@ -358,14 +361,25 @@ void G13::parse_key(int key, unsigned char *byte) {
 
 	int pressed = actual_byte & mask;
 
-	if (key == 25 || key == 26 || key == 27 || key == 28) {
+	switch (key) {
+	case 25: // key 25-28 are mapped to change bindings
+	case 26:
+	case 27:
+	case 28:
 		if (pressed) {
 			//cout << "key " << key << "\n";
 			bindings = key - 25;
 			loadBindings();
 		}
 		return;
+
+	case 36: // key 36-39 are mapped as joystick keys
+	case 37:
+	case 38:
+	case 39:
+		return;
 	}
+
 
 	int changed = actions[key]->set(pressed);
 
