@@ -1,25 +1,60 @@
 <?xml version="1.0"?>
 <project name="Linux-G13-GUI" default="jar" basedir=".">
-	<description>Build File for PictureFormatter Project</description>
-	<property name="project.home" value=".."/>
-	<property name="src" value="${project.home}/java"/>
-	<property name="build" value="${project.home}/java-build"/>
-	<property name="dist"  value="${project.home}"/>
-	<property name="manifest" value="${project.home}/java/Manifest.mf"/>
-	<property name="target" value="Linux-G13-GUI.jar"/>
+	<description>Build File G13 Configuration GUI</description>
+	<property name="target"       value="Linux-G13-GUI.jar"/>
+	
+	<property name="project.home" value="../.."/>
+	<property name="src"          value="${project.home}/source/java"/>
+	<property name="build"        value="/tmp/${target}/java-build"/>
+	<property name="deploy"       value="${project.home}/deploy"/>
+	
+	<property name="version"      value="1.0"/>
+	<property name="manifest"     value="${build}/Manifest.mf"/>
+	<property name="copyright"    value="GLP2"/>
+	<property name="vendor"       value="Jim Gupta"/>
+	<property name="vendor.url"   value="http://code.google.com/p/linux-g13-driver/"/>
+	<property name="main_class"   value="com.gupta.g13.G13"/>
+	<property name="class_path"   value=""/>
+	
+	<target name="version"> 
+	        <exec executable="svnversion" outputproperty="build_version"> 
+	                <arg value="." /> 
+	        </exec> 
+	</target> 
 
-	<target name="init">
-		<tstamp/>
+	<target name="init" depends="version">
+		<tstamp>
+			<format property="timestamp" pattern="yyyyMMdd.HHmm" />
+		</tstamp>
 		<mkdir dir="${build}"/>
+		<mkdir dir="${deploy}"/>
+		
+		<echo>Java Build Script for ${target} ${common.version}</echo>
+		<echo>System OS = "${os.name}"</echo>
+		<echo>Version   = "${version}-${build_version}"</echo>
+		<echo>TimeStamp = "${timestamp}"</echo>
+		<echo>Build Root= "${project.home}"</echo>
+
 	</target>
 
 	<target name="compile" depends="init" description="compile the source " >
+		<manifest file="${manifest}">
+			<attribute name="Copyright" value="${copyright}"/>
+			<attribute name="Implementation-Vendor" value="${vendor}"/>
+			<attribute name="Implementation-Version" value="${version}-${build_version}"/>
+			<attribute name="Implementation-Title" value="${target}"/>
+			<attribute name="URL" value="${vendor.url}"/>
+			<attribute name="Build-Date" value="${timestamp}"/>
+			<attribute name="Main-Class" value="${main_class}"/>
+			<attribute name="Class-Path" value="${class_path}"/>
+		</manifest>
 		<javac srcdir="${src}" destdir="${build}"/>
 	</target>
 
+
 	<target name="jar" depends="compile" description="generate the distribution" >
 		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${dist}/${target}" manifest="${manifest}">
+		<jar jarfile="${deploy}/${target}" manifest="${manifest}">
 			<fileset dir="${build}" includes="**/*.class"/>
 			<fileset dir="${src}" includes="**/*.class"/>
 			<fileset dir="${src}" includes="**/*.jpg"/>
@@ -29,9 +64,9 @@
 	</target>
 
 	<target name="clean" description="clean up" >
-		<!-- Delete the ${build} and ${dist} directory trees -->
+		<!-- Delete the ${build} and ${deploy} directory trees -->
 		<delete dir="${build}"/>
-		<delete file="${dist}/${target}"/>
+		<delete file="${deploy}/${target}"/>
 	</target>
 </project>
 
