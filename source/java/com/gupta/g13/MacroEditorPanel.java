@@ -105,6 +105,7 @@ public class MacroEditorPanel extends JPanel {
 		tmp2.add(deleteButton);
 		controls.add(tmp2);
 		
+		recordButton.setFocusTraversalKeysEnabled(false);
 		controls.add(recordButton);
 		
 		add(controls, BorderLayout.SOUTH);

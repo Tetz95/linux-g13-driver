@@ -24,8 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class KeybindPanel extends JPanel {
 
@@ -63,6 +61,8 @@ public class KeybindPanel extends JPanel {
 		final ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(passthroughButton);
 		buttonGroup.add(macroButton);
+		
+		passthroughText.setFocusTraversalKeysEnabled(false);
 		
 		final JPanel grid = new JPanel(new GridLayout(0, 2));
 		grid.add(passthroughButton);
