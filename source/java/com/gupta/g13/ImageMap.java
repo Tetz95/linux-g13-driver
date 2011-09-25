@@ -19,7 +19,7 @@ public class ImageMap extends JLabel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final ImageIcon G13_KEYPAD = ImageIconHelper.loadEmbeddedImage("/com/gupta/g13/images/g13.gif");
+	public static final ImageIcon G13_KEYPAD = ImageIconHelper.loadEmbeddedImage("/com/gupta/g13/images/g13.gif");
 	
 	private final List<ImageMapListener> listeners = new ArrayList<ImageMapListener>();
 

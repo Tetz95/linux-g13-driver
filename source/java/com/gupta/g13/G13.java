@@ -136,7 +136,7 @@ public class G13 extends JPanel {
 	 */
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("G13 Configuation Tool");
-		//frame.setIconImage(ICON.getImage());
+		frame.setIconImage(ImageMap.G13_KEYPAD.getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		final G13 g13 = new G13();	
