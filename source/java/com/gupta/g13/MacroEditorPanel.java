@@ -148,12 +148,12 @@ public class MacroEditorPanel extends JPanel {
 						
 						int [] list = macroList.getSelectedIndices();
 						boolean enable = (list != null && list.length > 0);
-						deleteButton.setEnabled(enable);
+						deleteButton.setEnabled(enable && canModifyMacro());
 						
 						editButton.setEnabled(false);
 						if (list != null && list.length == 1) {
 							if (listModel.getElementAt(list[0]).toString().startsWith("d.")) {
-								editButton.setEnabled(true);
+								editButton.setEnabled(true  && canModifyMacro());
 							}
 						}
 						
@@ -327,6 +327,10 @@ public class MacroEditorPanel extends JPanel {
 
 	}
 	
+	private boolean canModifyMacro() {
+		return macroSelectionBox.getSelectedIndex() >= Configs.defaultMacros.length;
+	}
+	
 	public void startStopRecording() {
 		final JComponent [] components = {
 				macroSelectionBox, macroList, nameText, addDelayButton, 
@@ -334,7 +338,7 @@ public class MacroEditorPanel extends JPanel {
 			};
 
 		for (final JComponent c: components) {
-			c.setEnabled(captureMode);
+			c.setEnabled(captureMode && canModifyMacro());
 		}
 		
 		if (captureMode == false) {
@@ -370,6 +374,11 @@ public class MacroEditorPanel extends JPanel {
 	}
 	
 	public void edit() {
+		
+		if (canModifyMacro() == false) {
+			return;
+		}
+		
 		final int [] indicies = macroList.getSelectedIndices();
 		if (indicies == null) {
 			return;
@@ -440,6 +449,13 @@ public class MacroEditorPanel extends JPanel {
 	
 	private void selectMacro() {
 		loadingData = true;
+		
+		captureDelays.setEnabled(canModifyMacro());
+		addDelayButton.setEnabled(false);
+		deleteButton.setEnabled(false);
+		editButton.setEnabled(false);
+		nameText.setEditable(canModifyMacro());
+		recordButton.setEnabled(canModifyMacro());
 		
 		listModel.clear();
 		
