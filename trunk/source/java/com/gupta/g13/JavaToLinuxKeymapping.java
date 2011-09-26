@@ -176,5 +176,28 @@ public class JavaToLinuxKeymapping {
 		
 		return (Integer)data.get(0)[1];
 	}
+	
+	public static String javaPositionToString(int pos) {
+		switch (pos) {
+		case KeyEvent.KEY_LOCATION_NUMPAD: return "KEY_LOCATION_NUMPAD";
+		case KeyEvent.KEY_LOCATION_RIGHT:  return "KEY_LOCATION_RIGHT";
+		case KeyEvent.KEY_LOCATION_LEFT:   return "KEY_LOCATION_LEFT";
+		}
+		
+		return "UNKNOWN";
+	}
+	
+	public static void printWikiCode() {
+		System.out.println("||*Linux Keycode*||*Name*||*Java Keycode*||*Java Location*||");
+		for (final Object [] row: linuxToJavaCodes) {
+			String javaKC = (Integer)row[2]==-1?"":"KeyEvent.VK_"+KeyEvent.getKeyText((Integer)row[2]);
+			String javaExt = row.length>3?"KeyEvent."+javaPositionToString((Integer)row[3]):"";
+			System.out.println("||" + row[1] + "||" + row[0] + "||" +  javaKC+ "||" + javaExt + "||");
+		}
+	}
+	
+	public static void main(final String [] args) {
+		printWikiCode();
+	}
 
 }
