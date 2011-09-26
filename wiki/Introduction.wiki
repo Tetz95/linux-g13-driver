@@ -1,9 +1,205 @@
+#Description of Bindings and Macros
 
-= Introduction =
+== Introduction ==
 
-My goal is to make my G13 work in linux (specifically Ubuntu) with an easy to use interface.
+The linux-g13-driver allows a user to bind any key on their G13 keyboard to any key on their normal keyboard.  This is called the passthrough mode.  The driver also allows a user to bind a G13 key to a macro.
 
+A macro is a set of key sequences and delays.  The UI allows the capture of keys to create macros.  Once a macro is created, it can be bound to a G13 key.  Optionally, the macro can auto-repeat as long as the G13 key is held down.
 
-= Details =
+These key bindings (G13 keys to normal keyboard keys or macros) are saved in a configuration file which is called bindings.  There are 4 bindings files.  A bindings file is loaded into the driver by selecting one of the 4 keys right below the LCD screen on the G13 Gamepad.
 
-http://i53.tinypic.com/2na679u.jpg
+All bindings and macro definitions are saved under your home directory in ./g13 ($home/.g13).  The bindings and macros are created the first time the Java UI is executed.
+
+In most cases a user will never have to modify a bindings or macro file by hand.  The java user interface should provide the functionality needed.
+
+If the user's configuration files become corrupt or unusable, the user can delete their configuration directory (~/.g13) and then restart the java user interface.  This will reconstruct the default bindings and macro files.
+
+----
+== Bindings Definition ==
+
+In ~/.g13 you can find your bindings files.  The file names contain the binding mapping to the G13 gamepad key mapping.  The leftmost bindings key on the G13 keyboard loads bindings-0.properties (B0 key on image below).  The second from the left loads bindings-1.properties(B1 key on image below) and so forth.
+
+----
+== Default Bindings ==
+http://i51.tinypic.com/1zgq9tv.jpg
+
+----
+== Binding Files Definition ==
+
+Binding files (bindings-0.properties, bindings-1.properties, etc) are property files with key/value pairing.  Any line that starts with # is a comment line and is ignored by the driver.
+
+=== Color ===
+The color key defines the LCD color.  The value for this is an rgb value separated by commas.
+
+ie: {{{ color=r,b,g }}} where r/b/g are a value between 0 and 255
+
+The Gxx keys define the gamepad key.  Please note that these keys have a numeric value of 1 less than what is on the G13 gamepad (because computers start at 0 and humans start at 1).  The value of these keys is either passthrough or macro.
+
+=== Passthrough ===
+Passthrough is defined as p followed by the k.linux_keycode
+
+ie: G0=p,k.3
+
+This line defines the G1 key on the gamepad to be a passthrough with keycode 3 (which is the "1" on the keyboard).  Linux keycodes are defined below.
+
+=== Macro ===
+Macro is defined by m followed by macro_id followed by repeat_flag
+
+ie: G1=m,12,1
+
+This line defines the G2 key on the gamepad to be assigned to macro #12 and repeat while the key is pressed (1 for repeat, 0 for one time per key down).
+
+----
+== Macro Files Definition ==
+
+Macro files (macro-id.properties) are property files with key/value pairing.  Any line that starts with # is a comment line and is ignored by the driver.
+
+Up to 200 macros (and files) can be defined and used by the driver and UI.
+
+=== Name ===
+The name key defines the name of the macro shown on the UI.
+
+ie: name=My Macro
+
+The above line defines the name of the macro.
+
+=== Id ==
+The id key defines the id of the macro.
+
+ie: id=2
+
+The above line defines that this macro id is 2.  The file that it's saved in must contain the same id.  If the id is 2, than the file name must be macro-2.properties
+
+=== Sequence ===
+The sequence key defines the sequence of events that take place in the macro.  There are 3 types of events: key down (kd), key up (ku) and delay (d).
+
+Each of the events are followed by a period (.) and then the corresponding value of the event.  In the case of key down and key up events, an event code occurs.  In the case of delay events a time in milliseconds occurs.
+
+ie: sequence=kd.29,d.395,kd.12,d.82,ku.12,d.365,ku.29
+
+The above line defines a sequence of: L_CTRL Key Down, delay of 395 ms (0.395 seconds), MINUS Key down, delay of 82 ms, MINUS key up, delay of 365 ms, L_CTRL Key Up.
+
+----
+== Key Codes ==
+
+||*Linux Keycode*||*Name*||*Java Keycode*||*Java Location*||
+||0||||||||
+||1||ESC||KeyEvent.VK_Escape||||
+||2||1||KeyEvent.VK_1||||
+||3||2||KeyEvent.VK_2||||
+||4||3||KeyEvent.VK_3||||
+||5||4||KeyEvent.VK_4||||
+||6||5||KeyEvent.VK_5||||
+||7||6||KeyEvent.VK_6||||
+||8||7||KeyEvent.VK_7||||
+||9||8||KeyEvent.VK_8||||
+||10||9||KeyEvent.VK_9||||
+||11||0||KeyEvent.VK_0||||
+||12||-||KeyEvent.VK_Minus||||
+||13||=||KeyEvent.VK_Equals||||
+||14||Backspace||KeyEvent.VK_Backspace||||
+||15||Tab||KeyEvent.VK_Tab||||
+||16||Q||KeyEvent.VK_Q||||
+||17||W||KeyEvent.VK_W||||
+||18||E||KeyEvent.VK_E||||
+||19||R||KeyEvent.VK_R||||
+||20||T||KeyEvent.VK_T||||
+||21||Y||KeyEvent.VK_Y||||
+||22||U||KeyEvent.VK_U||||
+||23||I||KeyEvent.VK_I||||
+||24||O||KeyEvent.VK_O||||
+||25||P||KeyEvent.VK_P||||
+||26||[||KeyEvent.VK_Left Brace||||
+||27||]||KeyEvent.VK_Right Brace||||
+||28||Enter||KeyEvent.VK_Enter||||
+||29||L CTRL||KeyEvent.VK_Ctrl||KeyEvent.KEY_LOCATION_LEFT||
+||30||A||KeyEvent.VK_A||||
+||31||S||KeyEvent.VK_S||||
+||32||D||KeyEvent.VK_D||||
+||33||F||KeyEvent.VK_F||||
+||34||G||KeyEvent.VK_G||||
+||35||H||KeyEvent.VK_H||||
+||36||J||KeyEvent.VK_J||||
+||37||K||KeyEvent.VK_K||||
+||38||L||KeyEvent.VK_L||||
+||39||;||KeyEvent.VK_Semicolon||||
+||40||'||KeyEvent.VK_Quote||||
+||41||`||KeyEvent.VK_Back Quote||||
+||42||L Shift||KeyEvent.VK_Shift||KeyEvent.KEY_LOCATION_LEFT||
+||43||\||KeyEvent.VK_Back Slash||||
+||44||Z||KeyEvent.VK_Z||||
+||45||X||KeyEvent.VK_X||||
+||46||C||KeyEvent.VK_C||||
+||47||V||KeyEvent.VK_V||||
+||48||B||KeyEvent.VK_B||||
+||49||N||KeyEvent.VK_N||||
+||50||M||KeyEvent.VK_M||||
+||51||,||KeyEvent.VK_Comma||||
+||52||.||KeyEvent.VK_Period||||
+||53||/||KeyEvent.VK_Slash||||
+||54||R Shift||KeyEvent.VK_Shift||KeyEvent.KEY_LOCATION_RIGHT||
+||55||NumPad *||KeyEvent.VK_NumPad *||||
+||56||L Alt||KeyEvent.VK_Alt||KeyEvent.KEY_LOCATION_LEFT||
+||57||Space||KeyEvent.VK_Space||||
+||58||Cap Lock||KeyEvent.VK_Caps Lock||||
+||59||F1||KeyEvent.VK_F1||||
+||60||F2||KeyEvent.VK_F2||||
+||61||F3||KeyEvent.VK_F3||||
+||62||F4||KeyEvent.VK_F4||||
+||63||F5||KeyEvent.VK_F5||||
+||64||F6||KeyEvent.VK_F6||||
+||65||F7||KeyEvent.VK_F7||||
+||66||F8||KeyEvent.VK_F8||||
+||67||F9||KeyEvent.VK_F9||||
+||68||F10||KeyEvent.VK_F10||||
+||69||Num Lock||KeyEvent.VK_Num Lock||||
+||70||Scroll Lock||KeyEvent.VK_Scroll Lock||||
+||71||NumPad 7||KeyEvent.VK_NumPad-7||||
+||72||NumPad 8||KeyEvent.VK_NumPad-8||||
+||73||NumPad 9||KeyEvent.VK_NumPad-9||||
+||74||NumPad -||KeyEvent.VK_Minus||||
+||75||NumPad 4||KeyEvent.VK_NumPad-4||||
+||76||NumPad 5||KeyEvent.VK_NumPad-5||||
+||77||NumPad 6||KeyEvent.VK_NumPad-6||||
+||78||NumPad +||KeyEvent.VK_Plus||||
+||79||NumPad 1||KeyEvent.VK_NumPad-1||||
+||80||NumPad 2||KeyEvent.VK_NumPad-2||||
+||81||NumPad 3||KeyEvent.VK_NumPad-3||||
+||82||Numpad Ins||KeyEvent.VK_Insert||||
+||83||Numpad Del||KeyEvent.VK_Delete||||
+||84||||||||
+||85||||||||
+||86||||||||
+||87||F11||KeyEvent.VK_F11||||
+||88||F12||KeyEvent.VK_F12||||
+||89||F13||KeyEvent.VK_F13||||
+||90||F14||KeyEvent.VK_F14||||
+||91||F15||KeyEvent.VK_F15||||
+||92||F16||KeyEvent.VK_F16||||
+||93||F17||KeyEvent.VK_F17||||
+||94||F18||KeyEvent.VK_F18||||
+||95||F19||KeyEvent.VK_F19||||
+||96||R Enter||KeyEvent.VK_Enter||KeyEvent.KEY_LOCATION_NUMPAD||
+||97||R Ctrl||KeyEvent.VK_Ctrl||KeyEvent.KEY_LOCATION_RIGHT||
+||98||/||KeyEvent.VK_Slash||KeyEvent.KEY_LOCATION_NUMPAD||
+||99||PRT SCR||KeyEvent.VK_Print Screen||||
+||100||R ALT||KeyEvent.VK_Alt||KeyEvent.KEY_LOCATION_RIGHT||
+||101||||||||
+||102||Home||KeyEvent.VK_Home||||
+||103||Up||KeyEvent.VK_Up||||
+||104||PgUp||KeyEvent.VK_Page Up||||
+||105||Left||KeyEvent.VK_Left||||
+||106||Right||KeyEvent.VK_Right||||
+||107||End||KeyEvent.VK_End||||
+||108||Down||KeyEvent.VK_Down||||
+||109||PgDn||KeyEvent.VK_Page Down||||
+||110||Insert||KeyEvent.VK_Insert||||
+||111||Del||KeyEvent.VK_Delete||||
+||112||||||||
+||113||||||||
+||114||||||||
+||115||||||||
+||116||||||||
+||117||||||||
+||118||||||||
+||119||Pause||KeyEvent.VK_Pause||||
