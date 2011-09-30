@@ -205,16 +205,16 @@ public class KeybindPanel extends JPanel {
 		}
 		
 		final String propKey = "G" + key.getG13KeyCode();
-		final String val = bindings.getProperty(propKey);
+		final String val = bindings.getProperty(propKey)==null?"":bindings.getProperty(propKey);
 		
 		final StringTokenizer st = new StringTokenizer(val, ",.");
-		String type = st.nextToken();
+		String type = st.hasMoreTokens()?st.nextToken():"p";
 		if (type.equals("p")) {
 			passthroughButton.setSelected(true);
 			
-			st.nextToken();
+			String tmp = st.hasMoreTokens()?st.nextToken():"";
 			
-			passthroughCode = Integer.valueOf(st.nextToken());
+			passthroughCode = Integer.valueOf(st.hasMoreTokens()?st.nextToken():"1");
 			passthroughText.setText(JavaToLinuxKeymapping.cKeyCodeToString(passthroughCode));
 			
 			macroSelectionBox.setEnabled(false);
