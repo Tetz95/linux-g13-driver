@@ -12,12 +12,22 @@ I've tried this on Arch Linux and it works so far.  I haven't tried it in Ubuntu
 
 # Requirements #
 libusb-1.0  
-For Ubuntu, it should be installed already but if you don't have it, you can get it by ``sudo apt-get install libusb-1.0-0``  
-For Arch Linux you can install it by ``sudo pacman -S libusb``
+For Ubuntu, it should be installed already but if you don't have it, you can get it by typing:
+
+    sudo apt-get install libusb-1.0-0
+    
+For Arch Linux you can install it by typing
+
+    sudo pacman -S libusb
 
 Java version 1.6 or higher  
-For Ubuntu, it can be install by ``sudo apt-get install default-jre``  
-For Arch it can be installed by ``sudo pacman -S jre8-openjdk``
+For Ubuntu, it can be install by typing:
+
+    sudo apt-get install default-jre
+    
+For Arch it can be installed by typing:
+
+    sudo pacman -S jre8-openjdk
 
 # Download #
 Download zip file from https://github.com/Tetz95/linux-g13-driver/tree/master/distros  
