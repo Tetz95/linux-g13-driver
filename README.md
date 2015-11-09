@@ -1,6 +1,6 @@
 #Readme File
 
-This code was forked from Jim Gupta at https://code.google.com/p/linux-g13-driver/  
+This code was forked from Jim Gupta code at https://code.google.com/p/linux-g13-driver/  
 
 I've forked this code because Google Code is deprecated and I don't want it lost.  Since then, I've started playing with it a little bit (Mostly directory structure and semantic changes for use with git).  
 
@@ -21,7 +21,7 @@ For Arch Linux you can install it by typing
     sudo pacman -S libusb
 
 **Java version 1.6 or higher**  
-For Ubuntu, it can be install by typing:
+For Ubuntu, it can be installed by typing:
 
     sudo apt-get install default-jre
     
@@ -36,7 +36,7 @@ Unzip into your favorite directory
 ##Build
 Open a console (command prompt)  
 Go to the directory where you unzipped your download  
-type ``make``
+type `make`
 
 
 ##Running Application
@@ -46,14 +46,14 @@ In a command prompt go to the directory where you unzipped your download and typ
     java -jar Linux-G13-GUI.jar
 
 This will bring up the UI and create the initial files needed for your driver.  
-All config files are saved in ``$(HOME)/.g13``
+All config files are saved in `$(HOME)/.g13`
 
 Run the driver
 In a command prompt go to the directory where you unzipped your download and type:  
 
     sudo -E ./G13-Linux-Driver
 
-The ``-E`` is to run it using your environment variables so it doesn't look for the ``.g13`` directory in ``/root``  
+The `-E` is to run it using your environment variables so it doesn't look for the `.g13` directory in `/root`  
 If you want to run the command and then detach it so you can close the terminal:
 
     sudo -E ./G13-Linux-Driver &
