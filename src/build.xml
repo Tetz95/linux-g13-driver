@@ -13,17 +13,17 @@
 	<property name="manifest"     value="${build}/Manifest.mf"/>
 	<property name="copyright"    value="GLP2"/>
 	<property name="vendor"       value="Jim Gupta"/>
-	<property name="vendor.url"   value="http://code.google.com/p/linux-g13-driver/"/>
+	<property name="vendor.url"   value="https://github.com/Tetz95/linux-g13-driver/"/>
 	<property name="main_class"   value="com.gupta.g13.G13"/>
 	<property name="class_path"   value=""/>
 	
 	<target name="version"> 
-	        <exec executable="svnversion" outputproperty="build_version"> 
+	        <exec executable="git-revision.sh" outputproperty="build_version"> 
 	                <arg value="." /> 
 	        </exec> 
 	</target> 
 
-	<property name="deploy" value="${project.home}/deploy/${project}_${version}"/>
+	<property name="deploy" value="${project.home}/deploy/${project}_v${version}"/>
 
 	<target name="init" depends="version">
 		<tstamp>
