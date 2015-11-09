@@ -12,6 +12,7 @@ I've tried this on Arch Linux and it works so far.  I haven't tried it in Ubuntu
 
 ##Requirements
 **libusb-1.0**  
+
 For Ubuntu, it should be installed already but if you don't have it, you can get it by typing:
 
     sudo apt-get install libusb-1.0-0
@@ -21,6 +22,7 @@ For Arch Linux you can install it by typing
     sudo pacman -S libusb
 
 **Java version 1.6 or higher**  
+
 For Ubuntu, it can be installed by typing:
 
     sudo apt-get install default-jre
