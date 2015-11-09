@@ -1,6 +1,6 @@
 #Readme File
 
-This code was forked from Jim Gupta code at https://code.google.com/p/linux-g13-driver/  
+This code was forked from Jim Gupta's code at https://code.google.com/p/linux-g13-driver/  
 
 I've forked this code because Google Code is deprecated and I don't want it lost.  Since then, I've started playing with it a little bit (Mostly directory structure and semantic changes for use with git).  
 
