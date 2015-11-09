@@ -1,13 +1,18 @@
 #Readme File
 
+This code was forked from Jim Gupta at https://code.google.com/p/linux-g13-driver/  
+
+I've forked this code because Google Code is not deprecated and I don't want it lost.  Since then, I've started playing with it a little bit (Mostly directory structure and symantic changes for use with git).  
+
+I haven't changed the fundamental code because I'm by no means a coder, but we'll see what happens from here.  I'll eventually write a .service file for systemd and perhaps package it for the AUR.  The service file should work with Ubuntu 15.04 and above.
+
 # Notes #
-I've only tried this on Ubuntu 11.04 64 bit version.  No promises that it will work
-on your version even if it's the same.
+I've tried this on Arch Linux and it works so far.  I haven't tried it in Ubuntu but it should work there, too.
 
 
 # Requirements #
 libusb-1.0
-if you don't have it, you can get it by "sudo apt-get install libusb-1.0"
+If you don't have it, you can get it by "sudo apt-get install libusb-1.0"
 
 Java version 1.6 or higher
 
@@ -23,16 +28,24 @@ type "make"
 
 # Running Application #
 Run the config tool first!
-> In a command prompt go to the directory where you unzipped your download and type "java -jar Linux-G13-GUI.jar"  
-> This will bring up the UI and create the initial files needed for your driver.  
-> All config files are saved in $(HOME)/.g13
+In a command prompt go to the directory where you unzipped your download and type:  
+
+    java -jar Linux-G13-GUI.jar
+
+This will bring up the UI and create the initial files needed for your driver.  
+All config files are saved in $(HOME)/.g13
 
 Run the driver
-> In a command prompt go to the directory where you unzipped your download and type "sudo ./G13-Linux-Driver"
+In a command prompt go to the directory where you unzipped your download and type:  
 
-If you are configuring the application while the driver is running, the driver will
-not pick up changes unless you select a different bindings set or you can restart
-the driver.
+    sudo -E ./G13-Linux-Driver
+
+The -E is to run it using your environment variables so it doesn't look for the .g13 directory in /root  
+If you want to run the command and then detach it so you can close the terminal:
+
+    sudo -E ./G13-Linux-Driver &; disown
+
+If you are configuring the application while the driver is running, the driver will not pick up changes unless you select a different bindings set or you can restart the driver.
 
 The top 4 buttons under the LCD screen select the bindings.
 
