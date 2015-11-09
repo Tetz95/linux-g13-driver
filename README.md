@@ -12,7 +12,7 @@ I've tried this on Arch Linux and it works so far.  I haven't tried it in Ubuntu
 
 # Requirements #
 libusb-1.0
-If you don't have it, you can get it by "sudo apt-get install libusb-1.0"
+If you don't have it, you can get it by ``sudo apt-get install libusb-1.0``
 
 Java version 1.6 or higher
 
@@ -33,14 +33,14 @@ In a command prompt go to the directory where you unzipped your download and typ
     java -jar Linux-G13-GUI.jar
 
 This will bring up the UI and create the initial files needed for your driver.  
-All config files are saved in $(HOME)/.g13
+All config files are saved in ``$(HOME)/.g13``
 
 Run the driver
 In a command prompt go to the directory where you unzipped your download and type:  
 
     sudo -E ./G13-Linux-Driver
 
-The -E is to run it using your environment variables so it doesn't look for the .g13 directory in /root  
+The ``-E`` is to run it using your environment variables so it doesn't look for the ``.g13`` directory in ``/root``  
 If you want to run the command and then detach it so you can close the terminal:
 
     sudo -E ./G13-Linux-Driver &
