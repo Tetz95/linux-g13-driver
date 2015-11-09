@@ -2,7 +2,7 @@
 
 This code was forked from Jim Gupta at https://code.google.com/p/linux-g13-driver/  
 
-I've forked this code because Google Code is not deprecated and I don't want it lost.  Since then, I've started playing with it a little bit (Mostly directory structure and symantic changes for use with git).  
+I've forked this code because Google Code is deprecated and I don't want it lost.  Since then, I've started playing with it a little bit (Mostly directory structure and symantic changes for use with git).  
 
 I haven't changed the fundamental code because I'm by no means a coder, but we'll see what happens from here.  I'll eventually write a .service file for systemd and perhaps package it for the AUR.  The service file should work with Ubuntu 15.04 and above.
 
