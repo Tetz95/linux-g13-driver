@@ -6,7 +6,7 @@
 	
 	<property name="project.home" value=".."/>
 	<property name="java-src"     value="${project.home}/src/java"/>
-	<property name="c-src"        value="${project.home}/src/c"/>
+	<property name="c-src"        value="${project.home}/src/cpp"/>
 	<property name="build"        value="/tmp/${java-target}/java-build"/>
 	
 	<property name="version"      value="1.0"/>
