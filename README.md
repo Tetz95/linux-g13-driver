@@ -23,7 +23,7 @@ Unzip into your favorite directory
 # Build #
 Open a console (command prompt)  
 Go to the directory where you unzipped your download  
-type "make"
+type ``make``
 
 
 # Running Application #
