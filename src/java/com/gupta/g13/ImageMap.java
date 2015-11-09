@@ -27,7 +27,7 @@ public class ImageMap extends JLabel {
 	
 	private final Color selectedColor = new Color(0, 255, 0, 128);
 	
-	private final Color mouseoverColor = new Color(0, 0, 255, 64);
+	private final Color mouseoverColor = new Color(255, 0, 0, 128);
 
 	private Key selected = null;
 	
