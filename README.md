@@ -11,7 +11,7 @@ I've tried this on Arch Linux and it works so far.  I haven't tried it in Ubuntu
 
 
 # Requirements #
-libusb-1.0
+libusb-1.0  
 If you don't have it, you can get it by ``sudo apt-get install libusb-1.0``
 
 Java version 1.6 or higher
