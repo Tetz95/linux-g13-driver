@@ -43,7 +43,7 @@ In a command prompt go to the directory where you unzipped your download and typ
 The -E is to run it using your environment variables so it doesn't look for the .g13 directory in /root  
 If you want to run the command and then detach it so you can close the terminal:
 
-    sudo -E ./G13-Linux-Driver &; disown
+    sudo -E ./G13-Linux-Driver &
 
 If you are configuring the application while the driver is running, the driver will not pick up changes unless you select a different bindings set or you can restart the driver.
 
