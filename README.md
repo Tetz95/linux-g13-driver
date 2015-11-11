@@ -8,6 +8,7 @@ I haven't changed the fundamental code because I'm by no means a coder, but we'l
 
 ##Notes
 I've tried this on 64-bit Arch Linux and it works so far.  I haven't tried it in 64-bit Ubuntu but it should work there, too.  
+
 I'm having a hard time getting udev rules to work so this can run in user mode.  It seems that `/dev/uinput` is in the kernel and loads before anything is writable and the file's permissions don't get modified.
 
 
