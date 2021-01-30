@@ -12,7 +12,7 @@ if you don't have it, you can get it by "sudo apt-get install libusb-1.0"
 Java version 1.6 or higher
 
 Download:
-Download zip file from https://github.com/Tetz95/linux-g13-driver/tree/master/distros
+Download zip file from https://github.com/Tetz95/linux-g13-driver/releases/latest
 Unzip into your favorite directory
 
 Build:
@@ -39,4 +39,3 @@ the driver.
 The top 4 buttons under the LCD screen select the bindings.
 
 The joystick currently only supports key mappings.
-
