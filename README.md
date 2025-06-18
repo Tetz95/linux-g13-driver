@@ -1,53 +1,80 @@
 # Readme File
 
-This code was forked from Jim Gupta's code at <https://code.google.com/p/linux-g13-driver/>
-
-I've forked this code because Google Code is deprecated and I don't want it lost.  Since then, I've started playing with it a little bit (Mostly directory structure and semantic changes for use with git).
-
-I haven't changed the fundamental code because I'm by no means a coder, but we'll see what happens from here.  I'll eventually write a .service file for systemd and perhaps package it for the AUR.  The service file should work with Ubuntu 15.04 and above.
-
-## Notes
-
-I've tried this on 64-bit Arch Linux and it works so far.  I haven't tried it in 64-bit Ubuntu but it should work there, too.
-
-I'm having a hard time getting udev rules to work so this can run in user mode.  It seems that `/dev/uinput` is in the kernel and loads before anything is writable and the file's permissions don't get modified.
+I forked the repo because parts of it are already 10 years old, and I still tinker with the hardware.
+So far, I have done a refactoring of the driver itself (modern C++ Standards) and the GUI (build process for Java 17 and maven / code base is now modern Java standards). 
 
 ## Requirements
 
-### libusb-1.0
+### libusb-1.0 (recommended for the driver)
 
-For Ubuntu, it should be installed already but if you don't have it, you can get it by typing:
+For Ubuntu and other Debian based systems, it should be installed already but if you don't have it, you can get it by typing:
 
     sudo apt-get install libusb-1.0-0
 
-For Arch Linux you can install it by typing:
+For Arch Linux and other Arch based systems you can install it by typing:
 
     sudo pacman -S libusb
 
-### Java version 1.6 or higher
+For Fedora and other Fedora based Systems you can install it by typing:
 
-For Ubuntu, it can be installed by typing:
+    sudo dnf install libusb
+
+
+### Java version 17 or higher (needed only for the GUI)
+
+For Ubuntu and other Debian based systems, it can be installed by typing:
 
     sudo apt-get install default-jre
 
-For Arch it can be installed by typing:
+For Arch and other Arch based systems, it can be installed by typing:
 
-    sudo pacman -S jre8-openjdk
+    sudo pacman -S jre-openjdk
 
-## Download
+For Fedora and other Fedora based Systems, it can be installed by typing:
 
-Download zip file from <https://github.com/Tetz95/linux-g13-driver/releases/latest>  
-Unzip into your favorite directory
+    sudo dnf install java-latest-openjdk.x86_64
+
 
 ## Build
 
 Open a console (command prompt)  
 Go to the directory where you unzipped your download  
-type `make`
 
-## Running Application
+type `make all` to build the driver
+then type `make install` to write the UDEV-Rule
 
-Run the config tool first!  
+for cleaning up 
+use `make clean`
+and `make uninstall`
+
+this will delete the build-files, the driver and the UDEV-Rule.
+
+
+## How to use the driver and the GUI App
+
+### Use the driver buildin Mappingset for mapping with other external tools like "Input Remapper"
+
+The driver has now a fixed mapping in the driver itself, so you don't need the old GUI. 
+You can now map with every other tool, like "Input Remapper".
+( Only the quick change with the four small Buttons under the display doesn't work anymore. This works only with the GUI tool.)
+
+
+### Manually made your own Mappingset
+
+If you don't want to use the GUI App, just copy the Folder ".g13" from /bindings to your 'home' Directory. 
+So you can make entries manually in the files.
+
+In the 'docs' folder is an example List for Eventcodes.
+Usage Example:
+
+    If you want to map the G20 key on your G13 to the T key on the keyboard:
+    Find T in the table. The Event Code is 20.
+    Open your bindings-0.properties file.
+    Add or change the following line: G20=p,k.20.
+
+
+### Use the config tool
+  
 In a command prompt go to the directory where you unzipped your download and type:
 
     java -jar Linux-G13-GUI.jar
@@ -55,8 +82,21 @@ In a command prompt go to the directory where you unzipped your download and typ
 This will bring up the UI and create the initial files needed for your driver.  
 All config files are saved in `$(HOME)/.g13`
 
-Run the driver  
+![alt text](docs/ConfigTool.jpg)
+
+The top 4 buttons under the LCD screen select the bindings.
+The joystick currently only supports key mappings
+
+
+### Run the driver
+
 In a command prompt go to the directory where you unzipped your download and type:
+
+If you have set the UDEV Rules, you now can start the driver with 
+
+    ./G13-Linux-Driver 
+
+else without UDEV-Rule Installation
 
     sudo -E ./G13-Linux-Driver
 
@@ -67,6 +107,7 @@ If you want to run the command and then detach it so you can close the terminal:
 
 If you are configuring the application while the driver is running, the driver will not pick up changes unless you select a different bindings set or you can restart the driver.
 
-The top 4 buttons under the LCD screen select the bindings.
 
-The joystick currently only supports key mappings.
+## Notes
+
+I've tried this on 64-bit Arch Linux and it works so far.  
